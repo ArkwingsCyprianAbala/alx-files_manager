@@ -14,7 +14,7 @@ class RedisClient {
     });
 
     this.client.on('connect', () => {
-      // console.log('Redis client connected to the server');
+      console.log('Redis client connected to the server');
     });
   }
 
@@ -27,9 +27,9 @@ class RedisClient {
   }
 
   /**
-   * gets value corresponding to key in redis
-   * @key {string} key to search for in redis
-   * @return {string}  value of key
+   * Gets value corresponding to key in redis
+   * @param {string} key - Key to search for in redis
+   * @return {string}  Value of key
    */
   async get(key) {
     const value = await this.getAsync(key);
@@ -38,10 +38,10 @@ class RedisClient {
 
   /**
    * Creates a new key in redis with a specific TTL
-   * @key {string} key to be saved in redis
-   * @value {string} value to be asigned to key
-   * @duration {number} TTL of key
-   * @return {undefined}  No return
+   * @param {string} key - Key to be saved in redis
+   * @param {string} value - Value to be assigned to key
+   * @param {number} duration - TTL of key (in seconds)
+   * @return {undefined}
    */
   async set(key, value, duration) {
     this.client.setex(key, duration, value);
@@ -49,14 +49,22 @@ class RedisClient {
 
   /**
    * Deletes key in redis service
-   * @key {string} key to be deleted
-   * @return {undefined}  No return
+   * @param {string} key - Key to be deleted
+   * @return {undefined}
    */
   async del(key) {
     this.client.del(key);
   }
+
+  /**
+   * Closes the Redis client connection
+   */
+  // quit() {
+  //   this.client.quit();
+  // }
 }
 
+// Export an instance of RedisClient
 const redisClient = new RedisClient();
 
 export default redisClient;
